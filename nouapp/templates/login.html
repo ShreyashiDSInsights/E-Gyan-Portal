@@ -1,0 +1,60 @@
+{% extends 'parent.html' %}
+{% block main %}
+<script>
+    function validate()
+    {
+        var userid=document.getElementById("userid");
+        var password=document.getElementById("password");
+        if (userid.value==""||userid.value==null)
+        {
+            alert("Please Enter User Id");
+            userid.focus();
+        }
+        else if(password.value==""||password.value==null)
+        {
+            alert("Please Enter Password");
+            password.focus();
+        }
+        else
+        {
+                document.getElementById("frmlogin").submit(); 
+        }
+    }
+</script>
+{% if messages %}
+  {% for message in messages %}
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
+    <strong>{{message}}</strong> 
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+  {% endfor %}
+{% endif %}
+<h1 class="text-center" >Login Form</h1>
+<form class="form-group" id="frmlogin" onsubmit="event.preventDefault();validate();" method="post"  action={% url 'nouapp:login'%}> 
+    {% csrf_token %}
+    <table class="table" style="width:80%;margin:auto;">
+    <tr>
+        <td>Enter User Id/Roll No</td>
+        <td><input type="text" id="userid" name="userid" class="form-control"></td>
+    </tr>
+    <tr>
+        <td>Enter Password</td>
+        <td ><input type="password" id="password" class="form-control" name="password" onkeydown="check()"></td>
+    </tr>
+    <tr>
+        <td>Select User Type</td>
+        <td>
+            <select name="usertype" class="form-control">
+            <option selected>-Select User Type-</option>
+                <option value="student">Student</option>
+                <option value="admin">Administrator</option>
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td><button type="submit" class="btn btn-success">Login</button></td>
+      </tr>
+    </table>
+</form>
+{% endblock main %}
